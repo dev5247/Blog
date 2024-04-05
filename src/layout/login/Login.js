@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useState,  } from "react"
 import { useNavigate } from "react-router"
 import googleIcon from "../../assets/icon/google-color-icon.svg"
 import faceBookIcon from "../../assets/icon/facebook-app-round-white-icon.svg"
 import twitterIcon from "../../assets/icon/twitter-circle.svg"
 import { useData } from "../../provider/AuthContext"
 import { useGoogleLogin } from "@react-oauth/google"
-// import axios from "axios"
+import axios from "axios"
 
 const Login = () => {
     const navigate = useNavigate()
@@ -21,14 +21,27 @@ const Login = () => {
         setUserData(userInf);
         navigate('/blog');
     }
-    function handleGoogleLoginSuccess(user) {
-        console.log('user', user);
+    function handleGoogleLoginSuccess(tokenResponse) {
+        console.log('token', tokenResponse);
+        const accessToken = tokenResponse.access_token;
+        axios
+            .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`,
+                },
+            })
+            .then((response) => {
+                setUserData({ email: response.data.email, password: "" })
+                console.log(response);
+            })
+        // .catch((err) => console.log(err))
     }
-    const { signIn } = useGoogleLogin(
+    const googleLogin = useGoogleLogin(
         {
-            onSuccess: (user) => handleGoogleLoginSuccess(user),
-            scope: 'https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/userinfo.profile'
-        });
+             onSuccess: handleGoogleLoginSuccess ,
+             scope:'https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/userinfo.profile'
+            
+            });
 
     return (
         <>
@@ -80,10 +93,10 @@ const Login = () => {
                             <img width={30} src={faceBookIcon} alt="facebook" className="fab fa-facebook text-3xl" />
                         </div>
                         <div className="bg-blue-500 h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img className="fab fa-twitter text-3xl"  alt="twitter" src={twitterIcon} />
+                            <img className="fab fa-twitter text-3xl" alt="twitter" src={twitterIcon} />
                         </div>
 
-                        <div onClick={() => signIn()} className=" cursor-pointer h-12 w-12 flex justify-center items-center rounded-full text-white">
+                        <div onClick={() => googleLogin()} className=" cursor-pointer h-12 w-12 flex justify-center items-center rounded-full text-white">
                             <img className="fab fa-google text-3xl" alt="google" src={googleIcon} />
                         </div>
                     </div>
