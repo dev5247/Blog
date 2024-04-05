@@ -28,14 +28,15 @@ const Login = (props) => {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
                 },
-                scope:['https://www.googleapis.com/auth/user.birthday.read']
+                scope: ['https://www.googleapis.com/auth/user.birthday.read']
             })
             .then((response) => {
-                setUserData({ email: response.data.email, password: response })
+                setUserData({ email: response.data.email, password: "" })
                 console.log(response);
-                navigate('/blog')
-            })
-            // .catch((err) => console.log(err))
+            }).then(axios.get(`https://www.googleapis.com/v1/people/me?personFields=birthdays,genders,age_range&access_token=${accessToken}`)
+                .then((response) => { console.log(response) })
+                .catch((err) => { console.log(err); }))
+        // .catch((err) => console.log(err))
     }
     const googleLogin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
 
