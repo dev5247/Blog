@@ -1,13 +1,13 @@
-import React, { useState, useDeferredValue } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router"
 import googleIcon from "../../assets/icon/google-color-icon.svg"
 import faceBookIcon from "../../assets/icon/facebook-app-round-white-icon.svg"
 import twitterIcon from "../../assets/icon/twitter-circle.svg"
 import { useData } from "../../provider/AuthContext"
 import { useGoogleLogin } from "@react-oauth/google"
-import axios from "axios"
+// import axios from "axios"
 
-const Login = (props) => {
+const Login = () => {
     const navigate = useNavigate()
     const { setUserData } = useData();
     const [userInf, setUserInf] = useState({ email: "", password: "" });
@@ -21,10 +21,10 @@ const Login = (props) => {
         setUserData(userInf);
         navigate('/blog');
     }
-    function handleGoogleLoginSuccess() {
+    function handleGoogleLoginSuccess(user) {
         console.log('user', user);
     }
-    const { signIn, loaded } = useGoogleLogin(
+    const { signIn } = useGoogleLogin(
         {
             onSuccess: (user) => handleGoogleLoginSuccess(user),
             scope: 'https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/userinfo.profile'
@@ -77,14 +77,14 @@ const Login = (props) => {
                     <hr />
                     <div className="mt-8 relative flex justify-around">
                         <div className="bg-blue-800 h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img width={30} src={faceBookIcon} className="fab fa-facebook text-3xl" />
+                            <img width={30} src={faceBookIcon} alt="facebook" className="fab fa-facebook text-3xl" />
                         </div>
                         <div className="bg-blue-500 h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img className="fab fa-twitter text-3xl" src={twitterIcon} />
+                            <img className="fab fa-twitter text-3xl"  alt="twitter" src={twitterIcon} />
                         </div>
 
                         <div onClick={() => signIn()} className=" cursor-pointer h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img className="fab fa-google text-3xl" src={googleIcon} />
+                            <img className="fab fa-google text-3xl" alt="google" src={googleIcon} />
                         </div>
                     </div>
                 </div>
