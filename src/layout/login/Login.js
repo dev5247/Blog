@@ -23,19 +23,18 @@ const Login = (props) => {
     }
     function handleGoogleLoginSuccess(tokenResponse) {
         const accessToken = tokenResponse.access_token;
+        // https://www.googleapis.com/oauth2/v3/userinfo
         axios
-            .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            .get("https://people.googleapis.com/v1/people/me?personFields=birthdays,genders,age_range", {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
                 },
                 scope: ['https://www.googleapis.com/auth/user.birthday.read']
             })
             .then((response) => {
-                setUserData({ email: response.data.email, password: "" })
-                console.log(response);
-            }).then(axios.get(`https://www.googleapis.com/v1/people/me?personFields=birthdays,genders,age_range&access_token=${accessToken}`)
-                .then((response) => { console.log(response) })
-            )
+                setUserData({ email: response.data.email, password: response })
+                console.log('response', response);
+            })
         // .catch((err) => console.log(err))
     }
     const googleLogin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
