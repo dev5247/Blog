@@ -27,7 +27,6 @@ const Login = (props) => {
             .get("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
-                "key": 'Cross-Origin-Opener-Policy'
             }
         })
         .then((response) => {
