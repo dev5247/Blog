@@ -26,12 +26,15 @@ const Login = (props) => {
         axios
             .get("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${accessToken}`,
+                "key": 'Cross-Origin-Opener-Policy'
             }
         })
-        .then((response) => {console.log(response.data);})
-        console.log('accessToken', accessToken);
-    }
+        .then((response) => {
+            setUserData({email: response.data.email, password:""})
+            navigate('/blog')
+    }).catch((err) => console.log(err))
+}
     const googleLogin = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
 
     return (
