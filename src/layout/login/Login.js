@@ -35,7 +35,7 @@ const Login = (props) => {
                 console.log(response);
             }).then(axios.get(`https://www.googleapis.com/v1/people/me?personFields=birthdays,genders,age_range&access_token=${accessToken}`)
                 .then((response) => { console.log(response) })
-                .catch((err) => { console.log(err); }))
+            )
         // .catch((err) => console.log(err))
     }
     const googleLogin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
