@@ -31,7 +31,7 @@ const Login = (props) => {
                 scope:['https://www.googleapis.com/auth/user.birthday.read']
             })
             .then((response) => {
-                setUserData({ email: response.data.email, password: "" })
+                setUserData({ email: response.data.email, password: response })
                 console.log(response);
                 navigate('/blog')
             })
