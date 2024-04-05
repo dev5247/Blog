@@ -1,14 +1,7 @@
 import React, { useEffect } from 'react'
 import Article from '../../components/Article';
-import { useNavigate } from 'react-router-dom';
-import { useData } from '../../provider/AuthContext';
 
 const Blog = () => {
-    const { user } = useData();
-    const navigate = useNavigate();
-    useEffect(() => {
-        if(user.email === "" || user.email === undefined ) navigate('/');
-    }, [user])
     const articles = [
         {
             authorName: `Darren Edward`,
@@ -25,7 +18,6 @@ const Blog = () => {
             image: `https://i.ibb.co/3C5HvxC/img-2.png`
         }
     ]
-
     return (
         <>
         {articles && articles.map((value, index) =>
