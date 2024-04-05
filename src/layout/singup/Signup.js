@@ -1,4 +1,4 @@
-import React, { useState, useDeferredValue } from "react"
+import React, { useState } from "react"
 import googleIcon from "../../assets/icon/google-color-icon.svg"
 import faceBookIcon from "../../assets/icon/facebook-app-round-white-icon.svg"
 import twitterIcon from "../../assets/icon/twitter-circle.svg"
@@ -61,14 +61,14 @@ const Signup = () => {
                     <hr />
                     <div className="mt-8 relative flex justify-around">
                         <div className="bg-blue-800 h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img width={30} src={faceBookIcon} className="fab fa-facebook text-3xl" />
+                            <img width={30} src={faceBookIcon} alt="facebook" className="fab fa-facebook text-3xl" />
                         </div>
                         <div className="bg-blue-500 h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img className="fab fa-twitter text-3xl" src={twitterIcon} />
+                            <img className="fab fa-twitter text-3xl" alt="twitter" src={twitterIcon} />
                         </div>
 
                         <div className="h-12 w-12 flex justify-center items-center rounded-full text-white">
-                            <img className="fab fa-google text-3xl" src={googleIcon} />
+                            <img className="fab fa-google text-3xl" alt="google" src={googleIcon} />
                         </div>
                     </div>
                 </div>

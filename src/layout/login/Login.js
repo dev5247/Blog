@@ -27,10 +27,12 @@ const Login = (props) => {
             .get("https://www.googleapis.com/oauth2/v3/userinfo", {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
-                }
+                },
+                scope:['https://www.googleapis.com/auth/user.birthday.read']
             })
             .then((response) => {
                 setUserData({ email: response.data.email, password: "" })
+                console.log(response);
                 navigate('/blog')
             })
             // .catch((err) => console.log(err))
