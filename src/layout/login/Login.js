@@ -5,6 +5,7 @@ import faceBookIcon from "../../assets/icon/facebook-app-round-white-icon.svg"
 import twitterIcon from "../../assets/icon/twitter-circle.svg"
 import { useData } from "../../provider/AuthContext"
 import {useGoogleLogin} from "@react-oauth/google"
+import axios from "axios"
  
 const Login = (props) => {
     const navigate = useNavigate()
@@ -23,6 +24,13 @@ const Login = (props) => {
     function handleGoogleLoginSuccess(tokenResponse) {
 
         const accessToken = tokenResponse.access_token;
+        axios
+            .get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            headers: {
+                "Authorization": `Bearer ${googleAccessToken}`
+            }
+        })
+        .then((response) => {console.log(response.data);})
         console.log('accessToken', accessToken);
     }
     const googleLogin = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
