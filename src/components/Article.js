@@ -1,9 +1,9 @@
 import React from 'react'
-import Avatar from '../../components/Avatar'
-import Text from '../../components/Text'
-import Picture from '../../components/Picture'
-import Title from '../../components/Title'
-import avatar from '../../assets/avatar/avatar.png';
+import Avatar from './Avatar'
+import Text from './Text'
+import Picture from './Picture'
+import Title from './Title'
+import avatar from '../assets/avatar/avatar.png';
 
 const Article = ({ detail }) => {
     return (

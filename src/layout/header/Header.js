@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import ToggleButton from '../../components/ToggleButton'
+import { useData } from '../../provider/AuthContext';
 const lngs = {
     en: { nativeName: 'English' },
     fr: { nativeName: 'French' }
 };
 const Header = () => {
     const { t, i18n } = useTranslation();
+    console.log('hello');
+    const { user } = useData();
+    useEffect(() => {
+        console.log(user);
+    }, [user])
     return (
         <>
             <div className='flex justify-end'>
@@ -25,7 +30,7 @@ const Header = () => {
             </div>
             <div className='flex flex-col items-center'>
                 <h1 className='text-3xl p-3 text-gray-700 font-bold'>{t('title')}</h1>
-                <h6 className='p-2 pb-3'>{t('explainText')}</h6>
+                <h6 className='p-2 pb-3'>{t('explainText')} from {user.email}</h6>
                 <hr className='w-[85%]' />
             </div>
         </>
