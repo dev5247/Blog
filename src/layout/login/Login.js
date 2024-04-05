@@ -1,4 +1,4 @@
-import React, { useState,  } from "react"
+import React, { useState, } from "react"
 import { useNavigate } from "react-router"
 import googleIcon from "../../assets/icon/google-color-icon.svg"
 import faceBookIcon from "../../assets/icon/facebook-app-round-white-icon.svg"
@@ -9,7 +9,7 @@ import axios from "axios"
 
 const Login = () => {
     const navigate = useNavigate()
-    const { setUserData } = useData();
+    const { user, setUserData } = useData();
     const [userInf, setUserInf] = useState({ email: "", password: "" });
     // const deferrdUserData = useDeferredValue(userData);
     const handleLogin = (e) => {
@@ -22,26 +22,44 @@ const Login = () => {
         navigate('/blog');
     }
     function handleGoogleLoginSuccess(tokenResponse) {
-        console.log('token', tokenResponse);
         const accessToken = tokenResponse.access_token;
+        var userData;
         axios
             .get("https://www.googleapis.com/oauth2/v3/userinfo", {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
                 },
             })
-            .then((response) => {
-                setUserData({ email: response.data.email, password: "" })
-                console.log(response);
+            .then((response, err) => {
+                if (err) { console.log(err) }
+                userData = {
+                    email: response.data.email,
+                    password: "",
+                    familyName: response.data.family_name,
+                    givenName: response.data.given_name
+                }
+            });
+        axios
+            .get('https://people.googleapis.com/v1/people/me?personFields=birthdays', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
             })
-        // .catch((err) => console.log(err))
+            .then((res, err) => {
+                if (err) { console.log(err) }
+                const birthday = res.data.birthdays[0].date;
+                setUserData({
+                    ...userData,
+                    birthday: `${birthday.year}.${birthday.month}.${birthday.day}`
+                });
+            });
+        navigate('/blog');
     }
     const googleLogin = useGoogleLogin(
         {
-             onSuccess: handleGoogleLoginSuccess ,
-             scope:'https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/userinfo.profile'
-            
-            });
+            onSuccess: handleGoogleLoginSuccess,
+            scope: 'https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/userinfo.profile'
+        });
 
     return (
         <>

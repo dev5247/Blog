@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Article from '../../components/Article';
+import { useNavigate } from 'react-router-dom';
+import { useData } from '../../provider/AuthContext';
+
 const Blog = () => {
+    const { user } = useData();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(user.email === "" || user.email === undefined ) navigate('/');
+    }, [user])
     const articles = [
         {
             authorName: `Darren Edward`,
