@@ -4,9 +4,9 @@ import googleIcon from "../../assets/icon/google-color-icon.svg"
 import faceBookIcon from "../../assets/icon/facebook-app-round-white-icon.svg"
 import twitterIcon from "../../assets/icon/twitter-circle.svg"
 import { useData } from "../../provider/AuthContext"
-import {useGoogleLogin} from "@react-oauth/google"
+import { useGoogleLogin } from "@react-oauth/google"
 import axios from "axios"
- 
+
 const Login = (props) => {
     const navigate = useNavigate()
     const { setUserData } = useData();
@@ -25,16 +25,17 @@ const Login = (props) => {
         const accessToken = tokenResponse.access_token;
         axios
             .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-            headers: {
-                "Authorization": `Bearer ${accessToken}`,
-            }
-        })
-        .then((response) => {
-            setUserData({email: response.data.email, password:""})
-            navigate('/blog')
-    }).catch((err) => console.log(err))
-}
-    const googleLogin = useGoogleLogin({onSuccess: handleGoogleLoginSuccess});
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`,
+                }
+            })
+            .then((response) => {
+                setUserData({ email: response.data.email, password: "" })
+                navigate('/blog')
+            })
+            // .catch((err) => console.log(err))
+    }
+    const googleLogin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
 
     return (
         <>
