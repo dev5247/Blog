@@ -21,21 +21,14 @@ const Login = (props) => {
         setUserData(userInf);
         navigate('/blog');
     }
-    function handleGoogleLoginSuccess(tokenResponse) {
-        const accessToken = tokenResponse.access_token;
-        axios
-            .get("https://www.googleapis.com/oauth2/v3/userinfo", {
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                },
-            })
-            .then((response) => {
-                setUserData({ email: response.data.email, password: "" })
-                console.log(response);
-            })
-        // .catch((err) => console.log(err))
+    function handleGoogleLoginSuccess() {
+        console.log('user', user);
     }
-    const googleLogin = useGoogleLogin({ onSuccess: handleGoogleLoginSuccess });
+    const { signIn, loaded } = useGoogleLogin(
+        {
+            onSuccess: (user) => handleGoogleLoginSuccess(user),
+            scope: 'https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/userinfo.profile'
+        });
 
     return (
         <>
@@ -90,7 +83,7 @@ const Login = (props) => {
                             <img className="fab fa-twitter text-3xl" src={twitterIcon} />
                         </div>
 
-                        <div onClick={() => googleLogin()} className=" cursor-pointer h-12 w-12 flex justify-center items-center rounded-full text-white">
+                        <div onClick={() => signIn()} className=" cursor-pointer h-12 w-12 flex justify-center items-center rounded-full text-white">
                             <img className="fab fa-google text-3xl" src={googleIcon} />
                         </div>
                     </div>
