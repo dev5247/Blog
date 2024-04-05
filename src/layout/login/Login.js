@@ -28,7 +28,6 @@ const Login = (props) => {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`,
                 },
-                scope: 'https://www.googleapis.com/auth/user.birthday.read'
             })
             .then((response) => {
                 setUserData({ email: response.data.email, password: "" })
