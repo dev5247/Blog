@@ -22,12 +22,11 @@ const Login = (props) => {
         navigate('/blog');
     }
     function handleGoogleLoginSuccess(tokenResponse) {
-
         const accessToken = tokenResponse.access_token;
         axios
             .get("https://www.googleapis.com/oauth2/v3/userinfo", {
             headers: {
-                "Authorization": `Bearer ${googleAccessToken}`
+                "Authorization": `Bearer ${accessToken}`
             }
         })
         .then((response) => {console.log(response.data);})
